@@ -4,7 +4,9 @@ def main():
     text = get_book_text(book_path)
     wc = word_count(text)
     cd = character_count(text)
-    sort_dic(cd)
+    sf = organize_dic(cd)
+    print_report(book_path, wc, cd, sf)
+    
 
 
 def get_book_text(path):
@@ -30,13 +32,22 @@ def character_count(text):
                 letter_count[char] += 1
     return letter_count
 
-def sort_func(cd):
-    return cd[""]
+def sort_func(sf):
+    return sf["Number"]
 
-def sort_dic(cd):
-    sorted = cd.sort(reverse = True, key=sort_func)
-    print(sorted)
-    
+def organize_dic(cd):
+    sorted = []
+    for set in cd:
+        sorted.append({"Letter": set, "Number": cd[set]})
+    sorted.sort(reverse=True, key=sort_func)
+    return sorted    
+
+def print_report(book_path, wc, cd, sf):
+    print(f"--- Begin report of {book_path} ---")
+    print(f"{wc} wrods found in the document.\n")
+    for set in sf:
+        if set["Letter"].isalpha():
+            print(f"the '{set['Letter']}' character was found {set['Number']} times.")
 
 
 main()  
